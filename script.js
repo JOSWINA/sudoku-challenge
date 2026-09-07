@@ -144,7 +144,12 @@ function selectCell(cell) {
 // ---------- KEYBOARD ----------
 
 document.addEventListener("keydown", e => {
-    if (finished || !selected || document.activeElement === nameInput) return;
+    if (
+    finished ||
+    !selected ||
+    document.activeElement === nameInput ||
+    document.activeElement === mobileInput
+) return;
 
     const r = +selected.dataset.row;
     const c = +selected.dataset.col;
@@ -197,12 +202,16 @@ document.addEventListener("keydown", e => {
     }
 });
 
+let mobileProcessing = false;
+ 
 mobileInput.addEventListener("input", () => {
-    if (finished || !selected) return;
+    if (mobileProcessing || finished || !selected) return;
  
     const value = mobileInput.value;
  
     if (value >= "1" && value <= "9") {
+        mobileProcessing = true;
+ 
         const r = +selected.dataset.row;
         const c = +selected.dataset.col;
         const n = +value;
@@ -222,14 +231,17 @@ mobileInput.addEventListener("input", () => {
  
             if (mistakes >= 5) {
                 finishGame(false);
-                mobileInput.value = "";
-                return;
             }
         }
  
         updateScore();
         checkComplete();
+ 
         mobileInput.value = "";
+ 
+        setTimeout(() => {
+            mobileProcessing = false;
+        }, 100);
     }
 });
  
@@ -279,11 +291,17 @@ function startTimer() {
 
     timerID = setInterval(() => {
         const seconds = Math.floor(
-            (Date.now() - startTime) / 1000
-        );
-
-        timer.textContent = formatTime(seconds);
-        updateScore();
+    (Date.now() - startTime) / 1000
+);
+ 
+timer.textContent = formatTime(seconds);
+ 
+if (seconds >= 600) {
+    finishGame(false, "time");
+    return;
+}
+ 
+updateScore();
     }, 250);
 }
 
@@ -406,7 +424,7 @@ newGameButton.addEventListener("click", newGame);
 
 // ---------- FINISH ----------
 
-function finishGame(won = true) {
+function finishGame(won = true,reason = "") {
     if (finished) return;
  
     finished = true;
@@ -417,7 +435,17 @@ function finishGame(won = true) {
             `❌ Game Over! You made 5 mistakes.`;
  
         return;
+    }if (!won) {
+    if (reason === "time") {
+        message.textContent =
+            "⏰ Time's up! You had 10 minutes.";
+    } else {
+        message.textContent =
+            "❌ Game Over! You made 5 mistakes.";
     }
+ 
+    return;
+}
  
     const finalScore = Math.max(
         100,
