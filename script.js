@@ -203,16 +203,36 @@ mobileInput.addEventListener("input", () => {
     const value = mobileInput.value;
  
     if (value >= "1" && value <= "9") {
-        selected.dispatchEvent(
-            new KeyboardEvent("keydown", {
-                key: value,
-                bubbles: true
-            })
-        );
+        const r = +selected.dataset.row;
+        const c = +selected.dataset.col;
+        const n = +value;
  
+        playerBoard[r][c] = n;
+        selected.textContent = n;
+ 
+        selected.classList.remove("wrong", "correct");
+ 
+        if (n === solution[r][c]) {
+            selected.classList.add("correct");
+            nextEmpty(r, c);
+        } else {
+            selected.classList.add("wrong");
+            mistakes++;
+            mistakesText.textContent = mistakes;
+ 
+            if (mistakes >= 5) {
+                finishGame(false);
+                mobileInput.value = "";
+                return;
+            }
+        }
+ 
+        updateScore();
+        checkComplete();
         mobileInput.value = "";
     }
 });
+ 
 
 function move(r, c, dr, dc) {
     let nr = r + dr;
