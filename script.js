@@ -171,7 +171,7 @@ document.addEventListener("keydown", e => {
     mistakes++;
     mistakesText.textContent = mistakes;
  
-    if (mistakes >= 5) {
+    if (mistakes >= 10) {
         finishGame(false);
         return;
     }
@@ -229,7 +229,7 @@ mobileInput.addEventListener("input", () => {
             mistakes++;
             mistakesText.textContent = mistakes;
  
-            if (mistakes >= 5) {
+            if (mistakes >= 10) {
                 finishGame(false);
             }
         }
@@ -432,7 +432,7 @@ function finishGame(won = true,reason = "") {
  
     if (!won) {
         message.textContent =
-            `❌ Game Over! You made 5 mistakes.`;
+            `❌ Game Over! You made 10 mistakes.`;
  
         return;
     }if (!won) {
@@ -441,7 +441,7 @@ function finishGame(won = true,reason = "") {
             "⏰ Time's up! You had 10 minutes.";
     } else {
         message.textContent =
-            "❌ Game Over! You made 5 mistakes.";
+            "❌ Game Over! You made 10 mistakes.";
     }
  
     return;
