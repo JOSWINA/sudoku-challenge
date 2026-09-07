@@ -525,4 +525,11 @@ h1 {
             35px 1fr 65px;
     }
 }
- 
+ #mobile-input {
+    position: fixed;
+    left: -1000px;
+    top: 0;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+}

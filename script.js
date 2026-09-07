@@ -10,6 +10,8 @@ const nameScreen = document.getElementById("name-screen");
 const nameInput = document.getElementById("player-name");
 const startButton = document.getElementById("start-game");
 const playerText = document.getElementById("current-player");
+const mobileInput = document.getElementById("mobile-input");
+ 
 
 const newGameButton = document.getElementById("new-game");
 const checkButton = document.getElementById("check-game");
@@ -125,13 +127,17 @@ function createBoard() {
 
 function selectCell(cell) {
     if (finished || cell.classList.contains("fixed")) return;
-
+ 
     document.querySelectorAll(".cell").forEach(c =>
         c.classList.remove("selected")
     );
-
+ 
     cell.classList.add("selected");
     selected = cell;
+ 
+    // Open phone keyboard
+    mobileInput.value = "";
+    mobileInput.focus();
 }
 
 
@@ -188,6 +194,23 @@ document.addEventListener("keydown", e => {
     if (moves[e.key]) {
         e.preventDefault();
         move(r, c, ...moves[e.key]);
+    }
+});
+
+mobileInput.addEventListener("input", () => {
+    if (finished || !selected) return;
+ 
+    const value = mobileInput.value;
+ 
+    if (value >= "1" && value <= "9") {
+        selected.dispatchEvent(
+            new KeyboardEvent("keydown", {
+                key: value,
+                bubbles: true
+            })
+        );
+ 
+        mobileInput.value = "";
     }
 });
 
