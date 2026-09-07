@@ -1,0 +1,528 @@
+/* =========================
+   Global Styles
+========================= */
+ 
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+ 
+body {
+    min-height: 100vh;
+    font-family: Arial, sans-serif;
+    background: #f2f4f7;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    color: #222;
+}
+ 
+ 
+/* =========================
+   Main Game Container
+========================= */
+ 
+.game-container {
+    width: 100%;
+    max-width: 500px;
+    text-align: center;
+}
+ 
+ 
+/* =========================
+   Title
+========================= */
+ 
+h1 {
+    margin-bottom: 20px;
+    font-size: 32px;
+    font-weight: 700;
+}
+ 
+ 
+/* =========================
+   Game Information
+========================= */
+ 
+.game-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+ 
+    width: min(90vw, 450px);
+    margin: 0 auto 15px;
+ 
+    padding: 14px 18px;
+ 
+    background: white;
+    border-radius: 12px;
+ 
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+ 
+.game-info div {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+ 
+.game-info span {
+    font-size: 13px;
+    color: #666;
+}
+ 
+.game-info strong {
+    font-size: 20px;
+}
+ 
+ 
+/* =========================
+   Sudoku Board
+========================= */
+ 
+#sudoku-board {
+    width: min(90vw, 450px);
+    height: min(90vw, 450px);
+ 
+    margin: auto;
+ 
+    display: grid;
+    grid-template-columns: repeat(9, 1fr);
+ 
+    background: white;
+ 
+    border: 3px solid #222;
+ 
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+}
+ 
+ 
+/* =========================
+   Sudoku Cells
+========================= */
+ 
+.cell {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+ 
+    border-right: 1px solid #aaa;
+    border-bottom: 1px solid #aaa;
+ 
+    font-size: clamp(18px, 5vw, 28px);
+    font-weight: 600;
+ 
+    cursor: pointer;
+    user-select: none;
+ 
+    transition: background 0.1s ease;
+}
+ 
+ 
+/* Remove right border from every 9th cell */
+ 
+.cell:nth-child(9n) {
+    border-right: none;
+}
+ 
+ 
+/* Thicker vertical borders after columns 3 and 6 */
+ 
+.cell:nth-child(3n) {
+    border-right: 2px solid #222;
+}
+ 
+.cell:nth-child(9n) {
+    border-right: none;
+}
+ 
+ 
+/* Thicker horizontal borders after rows 3 and 6 */
+ 
+.cell:nth-child(n+19):nth-child(-n+27),
+.cell:nth-child(n+46):nth-child(-n+54) {
+    border-bottom: 2px solid #222;
+}
+ 
+ 
+/* Remove bottom border from final row */
+ 
+.cell:nth-child(n+73) {
+    border-bottom: none;
+}
+ 
+ 
+/* =========================
+   Fixed Sudoku Numbers
+========================= */
+ 
+.cell.fixed {
+    background: #e9ecef;
+    color: #222;
+    cursor: default;
+}
+ 
+ 
+/* =========================
+   Selected Cell
+========================= */
+ 
+.cell.selected {
+    background: #dbeafe;
+}
+ 
+ 
+/* =========================
+   Correct Number
+========================= */
+ 
+.cell.correct {
+    background: #dcfce7;
+}
+ 
+ 
+/* =========================
+   Wrong Number
+========================= */
+ 
+.cell.wrong {
+    background: #fee2e2;
+}
+ 
+ 
+/* =========================
+   Buttons
+========================= */
+ 
+.buttons {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+ 
+    margin-top: 20px;
+}
+ 
+.buttons button {
+    border: none;
+    border-radius: 10px;
+ 
+    padding: 12px 25px;
+ 
+    font-size: 16px;
+    font-weight: 600;
+ 
+    cursor: pointer;
+ 
+    background: #222;
+    color: white;
+ 
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+ 
+    transition:
+        transform 0.1s ease,
+        background 0.2s ease;
+}
+ 
+.buttons button:hover {
+    background: #444;
+}
+ 
+.buttons button:active {
+    transform: scale(0.97);
+}
+ 
+ 
+/* =========================
+   Message
+========================= */
+ 
+#message {
+    min-height: 25px;
+ 
+    margin-top: 15px;
+ 
+    font-size: 16px;
+    font-weight: 600;
+}
+ 
+ 
+/* =========================
+   Keyboard Hint
+========================= */
+ 
+.game-container::after {
+    content: "Use your keyboard: 1–9 to enter • Backspace to erase • Arrow keys to move";
+ 
+    display: block;
+ 
+    margin-top: 15px;
+ 
+    font-size: 12px;
+    color: #777;
+    line-height: 1.5;
+}
+ 
+ 
+/* =========================
+   Mobile
+========================= */
+ 
+@media (max-width: 400px) {
+ 
+    body {
+        padding: 10px;
+    }
+ 
+    h1 {
+        font-size: 26px;
+        margin-bottom: 15px;
+    }
+ 
+    .game-info {
+        padding: 12px 15px;
+    }
+ 
+    .game-info strong {
+        font-size: 18px;
+    }
+ 
+    .buttons button {
+        padding: 11px 20px;
+        font-size: 15px;
+    }
+}
+ 
+ 
+/* =========================
+   Small Height Screens
+========================= */
+ 
+@media (max-height: 700px) {
+ 
+    body {
+        align-items: flex-start;
+    }
+ 
+    .game-container {
+        margin-top: 10px;
+    }
+ 
+    h1 {
+        margin-bottom: 10px;
+    }
+}
+
+/* =========================
+   Player Name Screen
+========================= */
+ 
+.overlay {
+    position: fixed;
+    inset: 0;
+ 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+ 
+    background: rgba(0, 0, 0, 0.55);
+ 
+    z-index: 1000;
+ 
+    padding: 20px;
+}
+ 
+.overlay.hidden {
+    display: none;
+}
+ 
+.name-card {
+    width: 100%;
+    max-width: 380px;
+ 
+    padding: 30px 25px;
+ 
+    background: white;
+ 
+    border-radius: 16px;
+ 
+    text-align: center;
+ 
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+ 
+.name-card h1 {
+    margin-bottom: 10px;
+}
+ 
+.name-card p {
+    margin-bottom: 20px;
+    color: #666;
+}
+ 
+#player-name {
+    width: 100%;
+ 
+    padding: 13px 15px;
+ 
+    border: 2px solid #ddd;
+    border-radius: 10px;
+ 
+    font-size: 16px;
+ 
+    outline: none;
+ 
+    margin-bottom: 12px;
+}
+ 
+#player-name:focus {
+    border-color: #555;
+}
+ 
+#start-game {
+    width: 100%;
+ 
+    padding: 13px;
+ 
+    border: none;
+    border-radius: 10px;
+ 
+    background: #222;
+    color: white;
+ 
+    font-size: 16px;
+    font-weight: bold;
+ 
+    cursor: pointer;
+}
+ 
+#start-game:hover {
+    background: #444;
+}
+ 
+ 
+/* =========================
+   Current Player
+========================= */
+ 
+.player-display {
+    margin-bottom: 10px;
+ 
+    font-size: 14px;
+ 
+    color: #666;
+}
+ 
+.player-display strong {
+    color: #222;
+}
+ 
+ 
+/* =========================
+   Leaderboard
+========================= */
+ 
+.leaderboard {
+    width: min(90vw, 450px);
+ 
+    margin: 20px auto 0;
+ 
+    padding: 18px;
+ 
+    background: white;
+ 
+    border-radius: 14px;
+ 
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.12);
+ 
+    text-align: left;
+}
+ 
+.leaderboard.hidden {
+    display: none;
+}
+ 
+.leaderboard-header {
+    display: flex;
+ 
+    justify-content: space-between;
+    align-items: center;
+ 
+    margin-bottom: 12px;
+}
+ 
+.leaderboard-header h2 {
+    font-size: 20px;
+}
+ 
+#close-leaderboard {
+    width: 30px;
+    height: 30px;
+ 
+    border: none;
+    border-radius: 50%;
+ 
+    background: #eee;
+ 
+    font-size: 22px;
+ 
+    cursor: pointer;
+}
+ 
+#close-leaderboard:hover {
+    background: #ddd;
+}
+ 
+.leaderboard-row {
+    display: grid;
+ 
+    grid-template-columns:
+        45px 1fr 80px;
+ 
+    align-items: center;
+ 
+    padding: 11px 8px;
+ 
+    border-bottom: 1px solid #eee;
+}
+ 
+.leaderboard-row:last-child {
+    border-bottom: none;
+}
+ 
+.rank {
+    font-weight: bold;
+}
+ 
+.leader-name {
+    overflow: hidden;
+ 
+    text-overflow: ellipsis;
+ 
+    white-space: nowrap;
+}
+ 
+.leader-score {
+    text-align: right;
+ 
+    font-weight: bold;
+}
+ 
+ 
+/* =========================
+   Mobile Leaderboard
+========================= */
+ 
+@media (max-width: 400px) {
+ 
+    .leaderboard {
+        padding: 15px;
+    }
+ 
+    .leaderboard-row {
+        grid-template-columns:
+            35px 1fr 65px;
+    }
+}
+ 
